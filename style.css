@@ -5,7 +5,7 @@
     border: none;
 }
 body {
-    background-color: rgb(146, 162, 167);
+    background: linear-gradient(to right, #00AAFF, #00FF6C);
     font-family: monospace;
 }
 .body {
@@ -32,8 +32,18 @@ h1 {
     height: 18vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: end;
+    justify-content: space-around;
+    padding-right: 3%;
     background-color: white;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.current {
+    font-size: 2rem;
+}
+.previous {
+    font-size: 1.4rem;
 }
 .board::after {
     content: ".";
@@ -85,14 +95,11 @@ a:hover {
     background-color: rgb(59, 59, 59);
     color: white;
 }
-.top {
-    padding: 5%;
-}
 button:hover {
     opacity: 0.9;
 }
 .gray:hover {
-    opacity: 0.3;
+    opacity: 0.7;
 }
 @media screen and (min-width: 720px) {
     .btns {
