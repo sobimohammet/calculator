@@ -12,6 +12,8 @@ let btns = document.querySelectorAll('button');
 let numberArrays = [];
 let currentValue;
 let previousValue;
+let operator;
+let result;
 
 clearBtn.addEventListener('click', () => {
     numberArrays = [];
@@ -19,6 +21,7 @@ clearBtn.addEventListener('click', () => {
     current.textContent = '';
     currentValue = undefined;
     previousValue = undefined;
+    operator = undefined;
 })
 
 //handle number buttons click event
@@ -27,7 +30,14 @@ numberBtns.forEach((button) => {
         if (numberArrays.length < 16) {
             numberArrays.push(button.textContent);
             currentValue = parseFloat(numberArrays.join(''));
-            current.textContent = numberArrays.join('');
+            if (operator == undefined) {
+                current.textContent = numberArrays.join('');
+            } else if (previous.textContent != '') {
+                current.textContent = `${previous.textContent} ${operator} ${numberArrays.join('')}`;
+            } else {
+                current.textContent = `${previousValue}  ${operator} ${numberArrays.join('')}`;
+            }
+            
         }
     })
 })
@@ -35,16 +45,37 @@ numberBtns.forEach((button) => {
 //handle operator buttons click event
 operatorBtns.forEach((button) => {
     button.addEventListener('click', () => {
-        if (numberArrays.length == 0) {
+        if (numberArrays.length == 0 && current.textContent == '') {
             numberArrays.push('-');
-            current.textContent = currentValue;
+            current.textContent = numberArrays.join('');
         } else if (numberArrays.length>0) {
             if (button.textContent == '+') {
+                operator = '+';
                 current.textContent = `${currentValue} + `;
+                if (previous.textContent != '') {
+                    previous.textContent = `${Number(previous.textContent) + currentValue}`;
+                } else if (previousValue == undefined) {
+                    previous.textContent = '';
+                } else if (previousValue != undefined) {
+                    result = previousValue + currentValue;
+                    previous.textContent = result;
+                }
+                previousValue = currentValue;
                 numberArrays = [];
-                /* previousValue += currentValue;  */
-                previousValue = 7;
-                previous.textContent = previousValue;
+            }
+            if (button.textContent == 'x') {
+                operator = 'x';
+                current.textContent = `${currentValue} x `;
+                if (previous.textContent != '') {
+                    previous.textContent = `${Number(previous.textContent) * currentValue}`;
+                } else if (previousValue == undefined) {
+                    previous.textContent = '';
+                } else if (previousValue != undefined) {
+                    result = previousValue * currentValue;
+                    previous.textContent = result;
+                }
+                previousValue = currentValue;
+                numberArrays = [];
             }
         }
     })
@@ -63,6 +94,3 @@ decimalBtn.addEventListener('click', () => {
         }
     }
 })
-
-//To fix
-//decimal at the begining
